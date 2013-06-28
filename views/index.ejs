@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/bootstrap/css/bootstrap.css' />
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script type="text/javascript">
+
+	var steps = []; // this array will grow each round
+	var inGame = false;
+	var isplaying = false;
+	var playerCount = 0;
+	var currentRound = 1;
+	var highScore = 1;
+
+	function incrementSteps(){
+		var number = Math.ceil(Math.random()*4);
+		console.log(number);
+		steps.push(number+"btn");
+	}
+
+	function resetGame(){
+		$('.startDiv').show();
+		$('.gameDiv').hide();
+
+		if(currentRound > highScore){
+			highScore = currentRound - 2;
+		}
+
+		$('#highScore').text("HighScore: " + highScore);
+
+		steps = [];
+		currentRound = 1;
+		playerCount = 0;
+	}
+
+	//this will indicate to the user what buttons to push
+	function playButtons(){
+		isPlaying = true;
+		incrementSteps();
+
+		$('h1#round').text("Round: " + currentRound);
+		currentRound++;
+
+		var count = 0;
+		var int = setInterval(function(){
+			var btn = steps[count];
+			console.log(btn);
+
+			$('embed').remove();
+    	    $('body').append('<embed src="'+btn+'.mp3" autostart="true" hidden="true" loop="false">');
+			$('#'+btn).animate({
+			    opacity: 1
+			  }, 250, function() {
+			    $('#'+btn).css('opacity', .75);
+			  });
+
+			count++;
+			if(count >= steps.length){
+				clearInterval(int);
+				isPlaying = false;
+			}
+		}, 1000);
+
+
+		//console.log('done');
+	}
+
+	$(document).ready(function(){
+		$('.startDiv').show();
+
+		$('#startBtn').on('click', function(){
+			$('.startDiv').hide();
+			$('.gameDiv').show();
+
+			playButtons();
+		});
+
+
+		$('.btn').on('click', function(){
+			
+			if(isPlaying){
+				return;
+			}
+
+			if($(this).attr('id') == steps[playerCount]){
+				console.log($(this).attr('id'));
+				playerCount++;
+				$('embed').remove();
+    	    	$('body').append('<embed src="'+$(this).attr('id')+'.mp3" autostart="true" hidden="true" loop="false">');
+				if(playerCount >= steps.length){
+					playerCount = 0;
+					playButtons();
+				}
+			} else {
+				resetGame();
+			}
+			
+		})
+
+	});
+
+    </script>
+  </head>
+  <body>
+    <h1 id='round'><%= title %></h1>
+    <h1 id='highScore'></h1>
+		<div class='container-fluid gameDiv' style='display:none'>
+      		<div class='row'>
+        		<button id='1btn' class='btn btn-primary span4'>&nbsp;</button>
+        		
+        		<button id='2btn' class='btn btn-success span4'>&nbsp;</button>
+        	</div>
+        	<br>
+        	<div class='row'>
+        		<button id='3btn' class='btn btn-warning span4'>&nbsp;</button>
+        		
+        		<button id='4btn' class='btn btn-danger span4'>&nbsp;</button>
+        	</div>
+        </div>
+        <div class='container-fluid startDiv' style='display:none'>
+      		<div class='row'>
+        		<button id='startBtn' class='btn btn-primary span4'>Start</button>
+        	</div>
+        </div>
+  </body>
+</html>
