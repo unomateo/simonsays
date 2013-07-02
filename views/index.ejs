@@ -1,9 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html lang='en'>
   <head>
+  	<meta charset="utf-8">
     <title><%= title %></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel='stylesheet' href='/bootstrap/css/bootstrap.css' />
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <style>
+      body {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+    </style>
+    <link rel='stylesheet' href="/bootstrap/css/bootstrap-responsive.css" />
+    
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     <script type="text/javascript">
 
@@ -62,9 +70,6 @@
 				isPlaying = false;
 			}
 		}, 1000);
-
-
-		//console.log('done');
 	}
 
 	$(document).ready(function(){
@@ -96,32 +101,66 @@
 			} else {
 				resetGame();
 			}
-			
 		})
-
 	});
 
     </script>
   </head>
   <body>
-    <h1 id='round'><%= title %></h1>
-    <h1 id='highScore'></h1>
+
+  	<div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="#"><%= title %></a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="active"><a href="#">Game</a></li>
+              <li><a href="/about">About</a></li>
+              <li><a href="/contact">Contact</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class='container-fluid gameDiv'>
+    	<div class='row'>
+	    	<div class='offset4 span4'>
+	    		<h1 id='highScore'></h1>
+	    	</div>
+	    </div>
+	</div>
+
 		<div class='container-fluid gameDiv' style='display:none'>
       		<div class='row'>
-        		<button id='1btn' class='btn btn-primary span4'>&nbsp;</button>
-        		
-        		<button id='2btn' class='btn btn-success span4'>&nbsp;</button>
-        	</div>
-        	<br>
-        	<div class='row'>
-        		<button id='3btn' class='btn btn-warning span4'>&nbsp;</button>
-        		
-        		<button id='4btn' class='btn btn-danger span4'>&nbsp;</button>
+      			<div class='offset4 span4'>
+      				<h1 id='round'></h1>
+      				<div class='row'>
+      					<div class='span3 offset1'>
+	      				<p>
+		        		<button id='1btn' class='btn btn-primary btn-large' type='button'>&nbsp;</button>
+		        		<button id='2btn' class='btn btn-success btn-large' type='button'>&nbsp;</button>
+		        		</p>
+		        		<p>
+		        		<button id='3btn' class='btn btn-warning btn-large' type='button'>&nbsp;</button>
+			        	<button id='4btn' class='btn btn-danger btn-large' type='button'>&nbsp;</button>
+			        	</p>
+			       		</div>
+			        </div>
+	        	</div>
         	</div>
         </div>
         <div class='container-fluid startDiv' style='display:none'>
       		<div class='row'>
-        		<button id='startBtn' class='btn btn-primary span4'>Start</button>
+      			<div class='span6 offset3 alert alert-success'>
+      				<h3>Test your memory and get highscore</h3>
+        			<button id='startBtn' class='btn btn-primary'>Start Game</button>
+        		</div>
         	</div>
         </div>
   </body>
